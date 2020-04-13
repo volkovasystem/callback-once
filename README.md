@@ -1,2 +1,2 @@
 # callback-once
-Callback single call wrapper
+Single execution callback wrapper.
