@@ -89,42 +89,52 @@ const callbackOnce = (
 			else{
 				const delegateCallback = (
 					function delegateCallback( ){
-						try{
-							if(
-									(
+						if(
+								(
+									delegateCallback
+									.$callData
+									.get(
 										delegateCallback
-										.$callData
-										.$checkCallCount( )
 									)
-								>	1
-							){
-								throw	(
-											new	Error(
-													[
-														"cannot execute callback more than once",
-
-														`@call-count: ${ delegateCallback.$callData.$callCount }`
-													]
-												)
-										);
-							}
-							else{
+									.$checkCallCount( )
+								)
+							===	false
+						){
+							const callCount = (
 								delegateCallback
 								.$callData
-								.$addCallCount( );
-							}
+								.get(
+									delegateCallback
+								)
+								.$callCount
+							);
 
-							return	(
-										callback
-										.apply(
-											this,
-											arguments
-										)
+							throw	(
+										new	Error(
+												[
+													"cannot execute callback more than once",
+
+													`@call-count: ${ callCount }`
+												]
+											)
 									);
 						}
-						finally{
-							callback = undefined;
+						else{
+							delegateCallback
+							.$callData
+							.get(
+								delegateCallback
+							)
+							.$addCallCount( );
 						}
+
+						return	(
+									callback
+									.apply(
+										this,
+										arguments
+									)
+								);
 					}
 				);
 
@@ -156,6 +166,7 @@ const callbackOnce = (
 				.defineProperty(
 					(
 						delegateCallback
+						.$callData
 						.get(
 							delegateCallback
 						)
@@ -220,14 +231,16 @@ const callbackOnce = (
 						"value": (
 							function $checkCallCount( ){
 								return	(
-											(
-												delegateCallback
-												.$callData
-												.get(
+												(
 													delegateCallback
+													.$callData
+													.get(
+														delegateCallback
+													)
 												)
-											)
-											.$callCount
+												.$callCount
+
+											<	1
 										);
 							}
 						),
