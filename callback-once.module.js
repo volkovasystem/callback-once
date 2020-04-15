@@ -44,9 +44,11 @@ const callbackOnce = (
 		*/
 
 		if(
-				typeof
-				callback
-			==	"function"
+				(
+						typeof
+						callback
+					==	"function"
+				)
 		){
 			if(
 					(
@@ -86,55 +88,216 @@ const callbackOnce = (
 			){
 				return	callback;
 			}
+			else if(
+					(
+							(
+											callback
+											.$callData
+								instanceof	WeakMap
+							)
+						===	true
+					)
+			){
+				Object
+				.defineProperty(
+					(
+						callback
+						.$callData
+						.get(
+							callback
+						)
+					),
+
+					"$callCount",
+
+					{
+						"value": 0,
+
+						"configurable": false,
+						"enumerable": false,
+						"writable": true
+					}
+				);
+
+				Object
+				.defineProperty(
+					(
+						callback
+						.$callData
+						.get(
+							callback
+						)
+					),
+
+					"$addCallCount",
+
+					{
+						"value": (
+							function addCallCount( ){
+								(
+									callback
+									.$callData
+									.get(
+										callback
+									)
+								)
+								.$callCount++;
+							}
+						),
+
+						"configurable": false,
+						"enumerable": false,
+						"writable": false
+					}
+				);
+
+				Object
+				.defineProperty(
+					(
+						callback
+						.$callData
+						.get(
+							callback
+						)
+					),
+
+					"$checkCallCount",
+
+					{
+						"value": (
+							function $checkCallCount( ){
+								return	(
+												(
+													callback
+													.$callData
+													.get(
+														callback
+													)
+												)
+												.$callCount
+
+											<	1
+										);
+							}
+						),
+
+						"configurable": false,
+						"enumerable": false,
+						"writable": false
+					}
+				);
+
+				if(
+						(
+								Array
+								.isArray(
+									(
+										callback
+										.$callData
+										.get(
+											callback
+										)
+									)
+									.$effectList
+								)
+							===	true
+						)
+				){
+					(
+						callback
+						.$callData
+						.get(
+							callback
+						)
+					)
+					.$effectList
+					.push(
+						function	effect(
+										procedure,
+										parameterList,
+										result,
+										scope
+									){
+										if(
+												(
+														(
+															callback
+															.$callData
+															.get(
+																callback
+															)
+															.$checkCallCount( )
+														)
+													===	false
+												)
+										){
+											const callCount = (
+												callback
+												.$callData
+												.get(
+													callback
+												)
+												.$callCount
+											);
+
+											throw	(
+														new	Error(
+																[
+																	"cannot execute callback more than once",
+
+																	`@call-count: ${ callCount }`
+																]
+															)
+													);
+										}
+										else{
+											callback
+											.$callData
+											.get(
+												callback
+											)
+											.$addCallCount( );
+										}
+
+										return	result;
+									}
+					);
+				}
+
+				return	callback;
+			}
 			else{
 				const delegateCallback = (
 					function delegateCallback( ){
-						if(
-								(
-									delegateCallback
-									.$callData
-									.get(
-										delegateCallback
-									)
-									.$checkCallCount( )
+						let result = undefined;
+
+						try{
+							result = (
+								callback
+								.apply(
+									this,
+									arguments
 								)
-							===	false
-						){
-							const callCount = (
-								delegateCallback
-								.$callData
-								.get(
-									delegateCallback
-								)
-								.$callCount
 							);
-
-							throw	(
-										new	Error(
-												[
-													"cannot execute callback more than once",
-
-													`@call-count: ${ callCount }`
-												]
-											)
+						}
+						catch( error ){
+							result = error;
+						}
+						finally{
+							return	(
+										delegateCallback
+										.$callData
+										.get(
+											delegateCallback
+										)
+										.$callEffect(
+											callback,
+											arguments,
+											result,
+											this
+										)
 									);
 						}
-						else{
-							delegateCallback
-							.$callData
-							.get(
-								delegateCallback
-							)
-							.$addCallCount( );
-						}
-
-						return	(
-									callback
-									.apply(
-										this,
-										arguments
-									)
-								);
 					}
 				);
 
@@ -155,6 +318,77 @@ const callbackOnce = (
 								{ }
 							)
 						),
+
+						"configurable": false,
+						"enumerable": false,
+						"writable": false
+					}
+				);
+
+				Object
+				.defineProperty(
+					(
+						delegateCallback
+						.$callData
+						.get(
+							delegateCallback
+						)
+					),
+
+					"$callEffect",
+
+					{
+						"value": (
+							function	callEffect(
+											procedure,
+											parameterList,
+											result,
+											scope
+										){
+											return	(
+														(
+															delegateCallback
+															.$callData
+															.get(
+																delegateCallback
+															)
+														)
+														.$effectList
+														.map(
+															function( effect ){
+																return	effect(
+																			procedure,
+																			parameterList,
+																			result,
+																			scope
+																		);
+															}
+														)
+														.pop( )
+													);
+										}
+						),
+
+						"configurable": false,
+						"enumerable": false,
+						"writable": false
+					}
+				);
+
+				Object
+				.defineProperty(
+					(
+						delegateCallback
+						.$callData
+						.get(
+							delegateCallback
+						)
+					),
+
+					"$effectList",
+
+					{
+						"value": [ ],
 
 						"configurable": false,
 						"enumerable": false,
@@ -251,6 +485,66 @@ const callbackOnce = (
 					}
 				);
 
+				(
+					delegateCallback
+					.$callData
+					.get(
+						delegateCallback
+					)
+				)
+				.$effectList
+				.push(
+					function	effect(
+									procedure,
+									parameterList,
+									result,
+									scope
+								){
+									if(
+											(
+													(
+														delegateCallback
+														.$callData
+														.get(
+															delegateCallback
+														)
+														.$checkCallCount( )
+													)
+												===	false
+											)
+									){
+										const callCount = (
+											delegateCallback
+											.$callData
+											.get(
+												delegateCallback
+											)
+											.$callCount
+										);
+
+										throw	(
+													new	Error(
+															[
+																"cannot execute callback more than once",
+
+																`@call-count: ${ callCount }`
+															]
+														)
+												);
+									}
+									else{
+										delegateCallback
+										.$callData
+										.get(
+											delegateCallback
+										)
+										.$addCallCount( );
+									}
+
+									return	result;
+								}
+				);
+
 				return	delegateCallback;
 			}
 		}
@@ -258,7 +552,7 @@ const callbackOnce = (
 			return	(
 						callbackOnce(
 							function callback( ){
-								return	undefined
+								return	undefined;
 							}
 						)
 					);
