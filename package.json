@@ -6,10 +6,10 @@
   "scripts": {
     "test": "node ./callback-once.test.js",
     "clean": "rm -Rfv ./node_modules && rm ./callback-once.js",
-    "minify-module": "npx terser ./callback-once.module.js --compress --comments all --output ./callback-once.js",
+    "compress": "npx terser ./callback-once.module.js --compress --comments all --output ./callback-once.js",
     "modularize": "npx babel --plugins @babel/plugin-transform-modules-umd ./callback-once.js --out-file ./callback-once.js",
     "minify": "npx terser ./callback-once.js --compress --comments all --output ./callback-once.js",
-    "build": "npm run minify-module && npm run modularize && npm run minify",
+    "build": "npm run compress && npm run modularize && npm run minify",
     "deploy": "npm run clean && npm install && npm run build && npm test",
     "prepublishOnly": "npm run clean && npm install && npm run build && npm test"
   },
