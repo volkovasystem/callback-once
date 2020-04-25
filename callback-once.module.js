@@ -45,13 +45,39 @@ const callbackOnce = (
 		/*;
 			@parameter-definition:
 				{
-					"callback": "[@type: function]"
+					"callback": "
+						[
+							@type:
+									function
+							@end-type
+						]
+					"
 				}
 			@end-parameter-definition
 
+			@trigger-definition:
+				{
+					"trigger": "
+						[
+							@type:
+									object as Error
+							@end-type
+
+							<@tag: callback-called-more-than-once;>
+						]
+					"
+				}
+			@end-trigger-definition
+
 			@result-definition:
 				{
-					"result": "[@type: function]"
+					"result": "
+						[
+							@type:
+									function
+							@end-type
+						]
+					"
 				}
 			@end-result-definition
 		*/
@@ -256,7 +282,10 @@ const callbackOnce = (
 											throw	(
 														new	Error(
 																[
-																	"cannot execute callback more than once",
+																	"#callback-called-more-than-once;",
+
+																	"cannot execute callback",
+																	"callback called more than once",
 
 																	`@call-count: ${ callCount }`
 																]
@@ -538,7 +567,10 @@ const callbackOnce = (
 										throw	(
 													new	Error(
 															[
-																"cannot execute callback more than once",
+																"#callback-called-more-than-once;",
+
+																"cannot execute callback",
+																"callback called more than once",
 
 																`@call-count: ${ callCount }`
 															]
