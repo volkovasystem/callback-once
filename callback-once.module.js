@@ -5,7 +5,20 @@
 		MIT License
 
 		Copyright (c) 2020 Richeve S. Bebedor <richeve.bebedor@gmail.com>
-		@copyright: Richeve S. Bebedor <@year: 2020> <@contact: richeve.bebedor@gmail.com>
+
+		@copyright:
+			Richeve S. Bebedor
+			<
+				@year:
+					2020
+				@end-year
+			>
+			<
+				@contact:
+					richeve.bebedor@gmail.com
+				@end-contact
+			>
+		@end-copyright
 
 		Permission is hereby granted, free of charge, to any person obtaining a copy
 		of this software and associated documentation files (the "Software"), to deal
