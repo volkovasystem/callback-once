@@ -4,12 +4,14 @@
   "description": "Single execution callback wrapper.",
   "main": "callback-once.js",
   "scripts": {
-    "test": "test callback-once.test.js",
-    "minify-module": "npx terser callback-once.module.js --compress --output callback-once.js",
-    "modularize": "npx babel --plugins @babel/plugin-transform-modules-umd callback-once.js --out-file callback-once.js",
-    "minify": "npx terser callback-once.js --compress --output callback-once.js",
+    "test": "node ./callback-once.test.js",
+    "clean": "rm -Rfv ./node_modules && rm ./callback-once.js",
+    "minify-module": "npx terser ./callback-once.module.js --compress --output ./callback-once.js",
+    "modularize": "npx babel --plugins @babel/plugin-transform-modules-umd ./callback-once.js --out-file ./callback-once.js",
+    "minify": "npx terser ./callback-once.js --compress --output ./callback-once.js",
     "build": "npm run minify-module && npm run modularize && npm run minify",
-    "prepublishOnly": "npm run build"
+    "deploy": "npm run clean && npm install && npm run build && npm test",
+    "prepublishOnly": "npm run clean && npm install && npm run build && npm test"
   },
   "repository": {
     "type": "git",
