@@ -1,36 +1,36 @@
 {
-  "name": "@volkovasystem/callback-once",
-  "version": "0.0.2",
-  "description": "Single execution callback wrapper.",
-  "main": "callback-once.js",
-  "scripts": {
-    "test": "node ./callback-once.test.js",
-    "clean": "rm -Rfv ./node_modules && rm ./callback-once.js",
-    "compress": "npx terser ./callback-once.module.js --compress --comments all --output ./callback-once.js",
-    "modularize": "npx babel --plugins @babel/plugin-transform-modules-umd ./callback-once.js --out-file ./callback-once.js",
-    "minify": "npx terser ./callback-once.js --compress --comments all --output ./callback-once.js",
-    "build": "npm run compress && npm run modularize && npm run minify",
-    "deploy": "npm run clean && npm install && npm run build && npm test",
-    "prepublishOnly": "npm run clean && npm install && npm run build && npm test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/volkovasystem/callback-once.git"
-  },
-  "keywords": [
-    "callback",
-    "once",
-    "callback-once"
-  ],
-  "author": "Richeve S. Bebedor <richeve.bebedor@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/volkovasystem/callback-once/issues"
-  },
-  "homepage": "https://github.com/volkovasystem/callback-once#readme",
-  "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.0",
-    "@babel/plugin-transform-modules-umd": "^7.9.0"
-  }
+	"name": "@volkovasystem/callback-once",
+	"alias": "callback-once",
+	"version": "0.0.3",
+	"description": "Single execution callback wrapper.",
+	"main": "callback-once.js",
+	"scripts": {
+		"clean": "rm -rf ./node_modules || true && rm -fv ./package-lock.json || true && npm cache clean --force",
+		"reset": "npm run clean && rm -rfv ./callback-once.js || true && rm -rfv ./.build || true && rm -rfv ./.test || true",
+		"bundle": "npx parcel build ./*.module.js --no-cache --no-source-maps --no-minify --out-dir ./.build --out-file ./callback-once.bundle.js --global callbackOnce",
+		"compress": "npx terser ./.build/callback-once.bundle.js --compress --keep-classnames --keep-fnames --output ./.build/callback-once.js",
+		"resolve": "mv ./.build/callback-once.js ./callback-once.js && rm -rfv ./.build || true",
+		"build": "npm run bundle && npm run compress && npm run resolve",
+		"test": "node ./callback-once.test.js",
+		"stage": "npm run reset && npm install && npm run build && npm test && npm run clean",
+		"prepublishOnly": "npm run stage"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/volkovasystem/callback-once.git"
+	},
+	"keywords": [
+		"callback-once",
+		"callback",
+		"once"
+	],
+	"author": "Richeve S. Bebebdor <richeve.bebedor@gmail.com>",
+	"contributors": [
+		"Richeve S. Bebebdor <richeve.bebedor@gmail.com>"
+	],
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/volkovasystem/callback-once/issues"
+	},
+	"homepage": "https://github.com/volkovasystem/callback-once#readme"
 }
