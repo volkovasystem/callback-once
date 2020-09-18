@@ -1,24 +1,18 @@
 "use strict";
 
 /*;
-	@module-license:
+	@license:module:
 		MIT License
 
-		Copyright (c) 2020 Richeve S. Bebedor <richeve.bebedor@gmail.com>
+		Copyright (c) 2020-present Richeve S. Bebebdor <richeve.bebedor@gmail.com>
 
-		@copyright:
-			Richeve S. Bebedor
-			<
-				@year:
-					2020
-				@end-year
-			>
-			<
-				@contact:
-					richeve.bebedor@gmail.com
-				@end-contact
-			>
-		@end-copyright
+		@license:copyright:
+			Richeve S. Bebebdor
+
+			<@license:year-range:2020-present;>
+
+			<@license:contact-detail:richeve.bebedor@gmail.com;>
+		@license:copyright;
 
 		Permission is hereby granted, free of charge, to any person obtaining a copy
 		of this software and associated documentation files (the "Software"), to deal
@@ -37,569 +31,172 @@
 		LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 		OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 		SOFTWARE.
-	@end-module-license
+	@license:module;
 */
+
+const CALLBACK_ONCE = (
+	Symbol( "callback-once" )
+);
+
+const CALLED = (
+	Symbol( "called" )
+);
 
 const callbackOnce = (
 	function callbackOnce( callback ){
 		/*;
-			@parameter-definition:
-				{
-					"callback": "
-						[
-							@type:
-									function
-							@end-type
-						]
-					"
-				}
-			@end-parameter-definition
+			@definition:
+				@procedure:#callbackOnce
+					@description:
+						Single execution callback wrapper.
+					@description;
+				@procedure;
 
-			@trigger-definition:
-				{
-					"trigger": "
-						[
-							@type:
-									object as Error
-							@end-type
+				@parameter:#callback
+					@type:
+							function
+					@type;
 
-							<@tag: callback-called-more-than-once;>
-						]
-					"
-				}
-			@end-trigger-definition
+					@description:
+					@description;
+				@parameter;
 
-			@result-definition:
-				{
-					"result": "
-						[
-							@type:
-									function
-							@end-type
-						]
-					"
-				}
-			@end-result-definition
+				@result:#result
+					@type:
+							function
+					@type;
+
+					@description:
+					@description;
+				@result;
+
+				@trigger:#trigger
+					@type:
+							object:as:Error
+					@type;
+
+					@description:
+					@description;
+
+					@tag:#invalid-callback-parameter;
+					@tag:#cannot-callback-once;
+				@trigger;
+			@definition;
 		*/
 
-		if(
-				(
-						typeof
-						callback
-					==	"function"
-				)
-		){
+		try{
 			if(
 					(
-							(
-											callback
-											.$callData
-								instanceof	WeakMap
-							)
-						===	true
-					)
-
-				&&	(
 							typeof
-							(
-								callback
-								.$callData
-								.get(
-									callback
-								)
-							)
-							.$checkCallCount
-						==	"function"
-					)
-
-				&&	(
-							typeof
-							(
-								callback
-								.$callData
-								.get(
-									callback
-								)
-							)
-							.$addCallCount
-						==	"function"
+							callback
+						!=	"function"
 					)
 			){
-				return	callback;
-			}
-			else if(
-					(
-							(
-											callback
-											.$callData
-								instanceof	WeakMap
-							)
-						===	true
-					)
-			){
-				Object
-				.defineProperty(
-					(
-						callback
-						.$callData
-						.get(
-							callback
-						)
-					),
-
-					"$callCount",
-
-					{
-						"value": 0,
-
-						"configurable": false,
-						"enumerable": false,
-						"writable": true
-					}
-				);
-
-				Object
-				.defineProperty(
-					(
-						callback
-						.$callData
-						.get(
-							callback
-						)
-					),
-
-					"$addCallCount",
-
-					{
-						"value": (
-							function addCallCount( ){
-								(
-									callback
-									.$callData
-									.get(
-										callback
-									)
-								)
-								.$callCount++;
-							}
-						),
-
-						"configurable": false,
-						"enumerable": false,
-						"writable": false
-					}
-				);
-
-				Object
-				.defineProperty(
-					(
-						callback
-						.$callData
-						.get(
-							callback
-						)
-					),
-
-					"$checkCallCount",
-
-					{
-						"value": (
-							function $checkCallCount( ){
-								return	(
-												(
-													callback
-													.$callData
-													.get(
-														callback
-													)
-												)
-												.$callCount
-
-											<	1
-										);
-							}
-						),
-
-						"configurable": false,
-						"enumerable": false,
-						"writable": false
-					}
-				);
-
-				if(
-						(
-								Array
-								.isArray(
+				throw	(
+							new	Error(
 									(
-										callback
-										.$callData
-										.get(
-											callback
-										)
+										[
+											"#invalid-callback-parameter;",
+
+											"invalid callback parameter;",
+
+											"@callback:",
+											`${ callback };`
+										]
 									)
-									.$effectList
 								)
-							===	true
-						)
-				){
+						);
+			}
+
+			if(
 					(
-						callback
-						.$callData
-						.get(
+							callback[ CALLBACK_ONCE ]
+						===	true
+					)
+			){
+				return	(
 							callback
-						)
-					)
-					.$effectList
-					.push(
-						function	effect(
-										procedure,
-										parameterList,
-										result,
-										scope
-									){
-										if(
-												(
-														(
-															callback
-															.$callData
-															.get(
-																callback
-															)
-															.$checkCallCount( )
-														)
-													===	false
-												)
-										){
-											const callCount = (
-												callback
-												.$callData
-												.get(
-													callback
-												)
-												.$callCount
-											);
-
-											throw	(
-														new	Error(
-																[
-																	"#callback-called-more-than-once;",
-
-																	"cannot execute callback",
-																	"callback called more than once",
-
-																	`@call-count: ${ callCount }`
-																]
-															)
-													);
-										}
-										else{
-											callback
-											.$callData
-											.get(
-												callback
-											)
-											.$addCallCount( );
-										}
-
-										return	result;
-									}
-					);
-				}
-
-				return	callback;
+						);
 			}
-			else{
-				const delegateCallback = (
-					function delegateCallback( ){
-						let result = undefined;
 
-						try{
-							result = (
-								callback
-								.apply(
-									this,
-									arguments
-								)
-							);
-						}
-						catch( error ){
-							result = error;
-						}
-						finally{
-							return	(
-										delegateCallback
-										.$callData
-										.get(
-											delegateCallback
-										)
-										.$callEffect(
-											callback,
-											arguments,
-											result,
-											this
-										)
-									);
-						}
+			const	{
+						proxy: onceCallback,
+						revoke: revokeCallback
 					}
-				);
-
-				Object
-				.defineProperty(
-					delegateCallback,
-
-					"$callData",
-
-					{
-						"value": (
+				=	(
+						Proxy
+						.revocable(
 							(
-								new	WeakMap( )
-							)
-							.set(
-								delegateCallback,
+								callback
+							),
 
-								{ }
-							)
-						),
+							(
+								{
+									"apply": (
+										function apply( callback, scope, parameterList ){
+											try{
+												return	(
+															callback
+															.apply(
+																(
+																	scope
+																),
 
-						"configurable": false,
-						"enumerable": false,
-						"writable": false
-					}
-				);
-
-				Object
-				.defineProperty(
-					(
-						delegateCallback
-						.$callData
-						.get(
-							delegateCallback
-						)
-					),
-
-					"$callEffect",
-
-					{
-						"value": (
-							function	callEffect(
-											procedure,
-											parameterList,
-											result,
-											scope
-										){
-											return	(
-														(
-															delegateCallback
-															.$callData
-															.get(
-																delegateCallback
+																(
+																	parameterList
+																)
 															)
-														)
-														.$effectList
-														.map(
-															function( effect ){
-																return	effect(
-																			procedure,
-																			parameterList,
-																			result,
-																			scope
-																		);
-															}
-														)
-														.pop( )
-													);
+														);
+											}
+											finally{
+												revokeCallback( );
+											}
 										}
-						),
+									),
 
-						"configurable": false,
-						"enumerable": false,
-						"writable": false
-					}
-				);
-
-				Object
-				.defineProperty(
-					(
-						delegateCallback
-						.$callData
-						.get(
-							delegateCallback
-						)
-					),
-
-					"$effectList",
-
-					{
-						"value": [ ],
-
-						"configurable": false,
-						"enumerable": false,
-						"writable": false
-					}
-				);
-
-				Object
-				.defineProperty(
-					(
-						delegateCallback
-						.$callData
-						.get(
-							delegateCallback
-						)
-					),
-
-					"$callCount",
-
-					{
-						"value": 0,
-
-						"configurable": false,
-						"enumerable": false,
-						"writable": true
-					}
-				);
-
-				Object
-				.defineProperty(
-					(
-						delegateCallback
-						.$callData
-						.get(
-							delegateCallback
-						)
-					),
-
-					"$addCallCount",
-
-					{
-						"value": (
-							function addCallCount( ){
-								(
-									delegateCallback
-									.$callData
-									.get(
-										delegateCallback
-									)
-								)
-								.$callCount++;
-							}
-						),
-
-						"configurable": false,
-						"enumerable": false,
-						"writable": false
-					}
-				);
-
-				Object
-				.defineProperty(
-					(
-						delegateCallback
-						.$callData
-						.get(
-							delegateCallback
-						)
-					),
-
-					"$checkCallCount",
-
-					{
-						"value": (
-							function $checkCallCount( ){
-								return	(
-												(
-													delegateCallback
-													.$callData
-													.get(
-														delegateCallback
-													)
-												)
-												.$callCount
-
-											<	1
-										);
-							}
-						),
-
-						"configurable": false,
-						"enumerable": false,
-						"writable": false
-					}
-				);
-
-				(
-					delegateCallback
-					.$callData
-					.get(
-						delegateCallback
-					)
-				)
-				.$effectList
-				.push(
-					function	effect(
-									procedure,
-									parameterList,
-									result,
-									scope
-								){
-									if(
-											(
+									"get": (
+										function get( callback, property, value, target ){
+											if(
 													(
-														delegateCallback
-														.$callData
-														.get(
-															delegateCallback
-														)
-														.$checkCallCount( )
+															property
+														===	CALLBACK_ONCE
 													)
-												===	false
-											)
-									){
-										const callCount = (
-											delegateCallback
-											.$callData
-											.get(
-												delegateCallback
-											)
-											.$callCount
-										);
-
-										throw	(
-													new	Error(
-															[
-																"#callback-called-more-than-once;",
-
-																"cannot execute callback",
-																"callback called more than once",
-
-																`@call-count: ${ callCount }`
-															]
-														)
-												);
-									}
-									else{
-										delegateCallback
-										.$callData
-										.get(
-											delegateCallback
-										)
-										.$addCallCount( );
-									}
-
-									return	result;
+											){
+												return	(
+															true
+														);
+											}
+											else{
+												return	(
+															callback[ property ]
+														);
+											}
+										}
+									)
 								}
-				);
-
-				return	delegateCallback;
-			}
-		}
-		else{
-			return	(
-						callbackOnce(
-							function callback( ){
-								return	undefined;
-							}
+							)
 						)
+					);
+
+			return	(
+						onceCallback
+					);
+		}
+		catch( error ){
+			throw	(
+						new	Error(
+								(
+									[
+										"#cannot-callback-once;",
+
+										"cannot callback once;",
+										"cannot execute callback once;",
+
+										"@error-data:",
+										`${ error };`
+									]
+								)
+							)
 					);
 		}
 	}
