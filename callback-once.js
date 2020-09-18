@@ -1,80 +1,34 @@
-!function(global,factory){if("function"==typeof define&&define.amd)define([],factory);else if("undefined"!=typeof exports)factory();else{factory(),global.callbackOnce={}}}("undefined"!=typeof globalThis?globalThis:"undefined"!=typeof self?self:this,(function(){"use strict";
+parcelRequire=function(modules,cache,entry,globalName){var error,previousRequire="function"==typeof parcelRequire&&parcelRequire,nodeRequire="function"==typeof require&&require;function newRequire(name,jumped){if(!cache[name]){if(!modules[name]){var currentRequire="function"==typeof parcelRequire&&parcelRequire;if(!jumped&&currentRequire)return currentRequire(name,!0);if(previousRequire)return previousRequire(name,!0);if(nodeRequire&&"string"==typeof name)return nodeRequire(name);var err=new Error("Cannot find module '"+name+"'");throw err.code="MODULE_NOT_FOUND",err}localRequire.resolve=function resolve(x){return modules[name][1][x]||x},localRequire.cache={};var module=cache[name]=new newRequire.Module(name);modules[name][0].call(module.exports,localRequire,module,module.exports,this)}return cache[name].exports;function localRequire(x){return newRequire(localRequire.resolve(x))}}newRequire.isParcelRequire=!0,newRequire.Module=function Module(moduleName){this.id=moduleName,this.bundle=newRequire,this.exports={}},newRequire.modules=modules,newRequire.cache=cache,newRequire.parent=previousRequire,newRequire.register=function(id,exports){modules[id]=[function(require,module){module.exports=exports},{}]};for(var i=0;i<entry.length;i++)try{newRequire(entry[i])}catch(e){error||(error=e)}if(entry.length){var mainExports=newRequire(entry[entry.length-1]);"object"==typeof exports&&"undefined"!=typeof module?module.exports=mainExports:"function"==typeof define&&define.amd?define((function(){return mainExports})):this.callbackOnce=mainExports}if(parcelRequire=newRequire,error)throw error;return newRequire}({tACY:[function(require,module,exports){"use strict";
 /*;
-  	@module-license:
-  		MIT License
-  
-  		Copyright (c) 2020 Richeve S. Bebedor <richeve.bebedor@gmail.com>
-  
-  		@copyright:
-  			Richeve S. Bebedor
-  			<
-  				@year:
-  					2020
-  				@end-year
-  			>
-  			<
-  				@contact:
-  					richeve.bebedor@gmail.com
-  				@end-contact
-  			>
-  		@end-copyright
-  
-  		Permission is hereby granted, free of charge, to any person obtaining a copy
-  		of this software and associated documentation files (the "Software"), to deal
-  		in the Software without restriction, including without limitation the rights
-  		to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  		copies of the Software, and to permit persons to whom the Software is
-  		furnished to do so, subject to the following conditions:
-  
-  		The above copyright notice and this permission notice shall be included in all
-  		copies or substantial portions of the Software.
-  
-  		THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  		IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  		FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  		AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  		LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  		OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  		SOFTWARE.
-  	@end-module-license
-  */module.exports=function callbackOnce(callback){
-/*;
-    			@parameter-definition:
-    				{
-    					"callback": "
-    						[
-    							@type:
-    									function
-    							@end-type
-    						]
-    					"
-    				}
-    			@end-parameter-definition
-    
-    			@trigger-definition:
-    				{
-    					"trigger": "
-    						[
-    							@type:
-    									object as Error
-    							@end-type
-    
-    							<@tag: callback-called-more-than-once;>
-    						]
-    					"
-    				}
-    			@end-trigger-definition
-    
-    			@result-definition:
-    				{
-    					"result": "
-    						[
-    							@type:
-    									function
-    							@end-type
-    						]
-    					"
-    				}
-    			@end-result-definition
-    		*/
-if("function"==typeof callback){if(callback.$callData instanceof WeakMap==1&&"function"==typeof callback.$callData.get(callback).$checkCallCount&&"function"==typeof callback.$callData.get(callback).$addCallCount)return callback;if(callback.$callData instanceof WeakMap==1)return Object.defineProperty(callback.$callData.get(callback),"$callCount",{value:0,configurable:!1,enumerable:!1,writable:!0}),Object.defineProperty(callback.$callData.get(callback),"$addCallCount",{value:function(){callback.$callData.get(callback).$callCount++},configurable:!1,enumerable:!1,writable:!1}),Object.defineProperty(callback.$callData.get(callback),"$checkCallCount",{value:function(){return callback.$callData.get(callback).$callCount<1},configurable:!1,enumerable:!1,writable:!1}),!0===Array.isArray(callback.$callData.get(callback).$effectList)&&callback.$callData.get(callback).$effectList.push((function(procedure,parameterList,result,scope){if(!1===callback.$callData.get(callback).$checkCallCount()){const callCount=callback.$callData.get(callback).$callCount;throw new Error(["#callback-called-more-than-once;","cannot execute callback","callback called more than once","@call-count: "+callCount])}return callback.$callData.get(callback).$addCallCount(),result})),callback;{const delegateCallback=function delegateCallback(){let result=void 0;try{result=callback.apply(this,arguments)}catch(error){result=error}finally{return delegateCallback.$callData.get(delegateCallback).$callEffect(callback,arguments,result,this)}};return Object.defineProperty(delegateCallback,"$callData",{value:(new WeakMap).set(delegateCallback,{}),configurable:!1,enumerable:!1,writable:!1}),Object.defineProperty(delegateCallback.$callData.get(delegateCallback),"$callEffect",{value:function(procedure,parameterList,result,scope){return delegateCallback.$callData.get(delegateCallback).$effectList.map((function(effect){return effect(procedure,parameterList,result,scope)})).pop()},configurable:!1,enumerable:!1,writable:!1}),Object.defineProperty(delegateCallback.$callData.get(delegateCallback),"$effectList",{value:[],configurable:!1,enumerable:!1,writable:!1}),Object.defineProperty(delegateCallback.$callData.get(delegateCallback),"$callCount",{value:0,configurable:!1,enumerable:!1,writable:!0}),Object.defineProperty(delegateCallback.$callData.get(delegateCallback),"$addCallCount",{value:function(){delegateCallback.$callData.get(delegateCallback).$callCount++},configurable:!1,enumerable:!1,writable:!1}),Object.defineProperty(delegateCallback.$callData.get(delegateCallback),"$checkCallCount",{value:function(){return delegateCallback.$callData.get(delegateCallback).$callCount<1},configurable:!1,enumerable:!1,writable:!1}),delegateCallback.$callData.get(delegateCallback).$effectList.push((function(procedure,parameterList,result,scope){if(!1===delegateCallback.$callData.get(delegateCallback).$checkCallCount()){const callCount=delegateCallback.$callData.get(delegateCallback).$callCount;throw new Error(["#callback-called-more-than-once;","cannot execute callback","callback called more than once","@call-count: "+callCount])}return delegateCallback.$callData.get(delegateCallback).$addCallCount(),result})),delegateCallback}}return callbackOnce((function(){}))}}));
+	@license:module:
+		MIT License
+
+		Copyright (c) 2020-present Richeve S. Bebebdor <richeve.bebedor@gmail.com>
+
+		@license:copyright:
+			Richeve S. Bebebdor
+
+			<@license:year-range:2020-present;>
+
+			<@license:contact-detail:richeve.bebedor@gmail.com;>
+		@license:copyright;
+
+		Permission is hereby granted, free of charge, to any person obtaining a copy
+		of this software and associated documentation files (the "Software"), to deal
+		in the Software without restriction, including without limitation the rights
+		to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+		copies of the Software, and to permit persons to whom the Software is
+		furnished to do so, subject to the following conditions:
+
+		The above copyright notice and this permission notice shall be included in all
+		copies or substantial portions of the Software.
+
+		THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+		IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+		FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+		AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+		LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+		OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+		SOFTWARE.
+	@license:module;
+*/var CALLBACK_ONCE=Symbol("callback-once");Symbol("called");module.exports=function callbackOnce(callback){try{if("function"!=typeof callback)throw new Error(["#invalid-callback-parameter;","invalid callback parameter;","@callback:","".concat(callback,";")]);if(!0===callback[CALLBACK_ONCE])return callback;var _Proxy$revocable=Proxy.revocable(callback,{apply:function apply(callback,scope,parameterList){try{return callback.apply(scope,parameterList)}finally{revokeCallback()}},get:function get(callback,property,value,target){return property===CALLBACK_ONCE||callback[property]}}),onceCallback=_Proxy$revocable.proxy,revokeCallback=_Proxy$revocable.revoke;return onceCallback}catch(error){throw new Error(["#cannot-callback-once;","cannot callback once;","cannot execute callback once;","@error-data:","".concat(error,";")])}}},{}]},{},["tACY"]);
