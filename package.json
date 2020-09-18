@@ -1,7 +1,7 @@
 {
 	"name": "@volkovasystem/callback-once",
 	"alias": "callback-once",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "Single execution callback wrapper.",
 	"main": "callback-once.js",
 	"scripts": {
@@ -24,9 +24,9 @@
 		"callback",
 		"once"
 	],
-	"author": "Richeve S. Bebebdor <richeve.bebedor@gmail.com>",
+	"author": "Richeve S. Bebedor <richeve.bebedor@gmail.com>",
 	"contributors": [
-		"Richeve S. Bebebdor <richeve.bebedor@gmail.com>"
+		"Richeve S. Bebedor <richeve.bebedor@gmail.com>"
 	],
 	"license": "MIT",
 	"bugs": {
