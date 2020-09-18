@@ -3,10 +3,10 @@ parcelRequire=function(modules,cache,entry,globalName){var error,previousRequire
 	@license:module:
 		MIT License
 
-		Copyright (c) 2020-present Richeve S. Bebebdor <richeve.bebedor@gmail.com>
+		Copyright (c) 2020-present Richeve S. Bebedor <richeve.bebedor@gmail.com>
 
 		@license:copyright:
-			Richeve S. Bebebdor
+			Richeve S. Bebedor
 
 			<@license:year-range:2020-present;>
 
