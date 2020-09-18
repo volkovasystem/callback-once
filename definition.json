@@ -1,0 +1,94 @@
+{
+	"module": [
+		{
+			"title": "Callback Once",
+			"description": [
+				"Single execution callback wrapper."
+			],
+			"namespace": "callback-once",
+			"alias": "",
+			"property": [
+				"callbackOnce"
+			],
+			"type": [
+				"procedure"
+			],
+			"format": [
+				""
+			],
+			"sample": [
+				""
+			],
+			"parameter": [
+				{
+					"title": "Callback",
+					"description": [
+						"Callback procedure."
+					],
+					"namespace": "callback",
+					"alias": "",
+					"property": [
+						"callback"
+					],
+					"type": [
+						"function"
+					],
+					"format": [
+						""
+					],
+					"sample": [
+						""
+					],
+					"required": true
+				}
+			],
+			"result": [
+				{
+					"title": "Result",
+					"description": [
+						"Procedure result."
+					],
+					"namespace": "result",
+					"alias": "",
+					"property": [
+						"result"
+					],
+					"type": [
+						""
+					],
+					"format": [
+						""
+					],
+					"sample": [
+						""
+					]
+				}
+			],
+			"trigger": [
+				{
+					"title": "Trigger",
+					"description": [
+						"Procedure trigger."
+					],
+					"namespace": "trigger",
+					"alias": "",
+					"property": [
+						"trigger"
+					],
+					"type": [
+						"object:as:Error"
+					],
+					"format": [
+						""
+					],
+					"sample": [
+						""
+					],
+					"tag": [
+						""
+					]
+				}
+			]
+		}
+	]
+}
