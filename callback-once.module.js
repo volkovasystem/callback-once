@@ -202,4 +202,10 @@ const callbackOnce = (
 	}
 );
 
-module.exports = callbackOnce;
+(
+		module
+		.exports
+	=	(
+			callbackOnce
+		)
+);
