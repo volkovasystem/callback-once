@@ -1,7 +1,7 @@
 {
 	"name": "@volkovasystem/callback-once",
 	"alias": "callback-once",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "Single execution callback wrapper.",
 	"main": "callback-once.js",
 	"scripts": {
