@@ -119,6 +119,29 @@ const callbackOnce = (
 						);
 			}
 
+			if(
+					(
+							callback[ CALLED ]
+						===	true
+					)
+			){
+				throw	(
+							new	Error(
+									(
+										[
+											"#invalid-callback-parameter;",
+
+											"invalid callback parameter;",
+											"callback called;"
+
+											"@callback:",
+											`${ callback };`
+										]
+									)
+								)
+						);
+			}
+
 			const	{
 						proxy: onceCallback,
 						revoke: revokeCallback
@@ -133,10 +156,14 @@ const callbackOnce = (
 							(
 								{
 									"apply": (
-										function apply( callback, scope, parameterList ){
+										function apply(
+											targetCallback,
+											scope,
+											parameterList
+										){
 											try{
 												return	(
-															callback
+															targetCallback
 															.apply(
 																(
 																	scope
@@ -149,13 +176,48 @@ const callbackOnce = (
 														);
 											}
 											finally{
+												Object.defineProperty(
+													(
+														targetCallback
+													),
+
+													(
+														CALLED
+													),
+
+													(
+														{
+															"value": (
+																true
+															),
+
+															"configurable": (
+																false
+															),
+
+															"enumerable": (
+																false
+															),
+
+															"writable": (
+																false
+															),
+														}
+													)
+												);
+
 												revokeCallback( );
 											}
 										}
 									),
 
 									"get": (
-										function get( callback, property, value, target ){
+										function get(
+											targetCallback,
+											property,
+											value,
+											proxyCallback
+										){
 											if(
 													(
 															property
@@ -168,7 +230,7 @@ const callbackOnce = (
 											}
 											else{
 												return	(
-															callback[ property ]
+															targetCallback[ property ]
 														);
 											}
 										}
@@ -177,6 +239,36 @@ const callbackOnce = (
 							)
 						)
 					);
+
+			Object.defineProperty(
+				(
+					onceCallback
+				),
+
+				(
+					"target"
+				),
+
+				(
+					{
+						"value": (
+							callback
+						),
+
+						"configurable": (
+							false
+						),
+
+						"enumerable": (
+							false
+						),
+
+						"writable": (
+							false
+						),
+					}
+				)
+			);
 
 			return	(
 						onceCallback
@@ -193,7 +285,7 @@ const callbackOnce = (
 										"cannot execute callback once;",
 
 										"@error-data:",
-										`${ error };`
+										`${ error.stack };`
 									]
 								)
 							)
