@@ -5,14 +5,13 @@
 	"description": "Single execution callback wrapper.",
 	"main": "callback-once.js",
 	"scripts": {
-		"clean": "rm -rf ./node_modules || true && rm -fv ./package-lock.json || true && npm cache clean --force",
-		"reset": "npm run clean && rm -rfv ./callback-once.js || true && rm -rfv ./.build || true && rm -rfv ./.test || true",
-		"bundle": "npx parcel build ./*.module.js --no-cache --no-source-maps --no-minify --out-dir ./.build --out-file ./callback-once.bundle.js --global callbackOnce",
-		"compress": "npx terser ./.build/callback-once.bundle.js --compress --keep-classnames --keep-fnames --output ./.build/callback-once.js",
-		"resolve": "mv ./.build/callback-once.js ./callback-once.js && rm -rfv ./.build || true",
-		"build": "npm run bundle && npm run compress && npm run resolve",
-		"test": "node ./callback-once.test.js",
-		"stage": "npm run reset && npm install && npm run build && npm test && npm run clean",
+		"clean": "npx rimraf node_modules && npx rimraf package-lock.json && npx rimraf .build && npx rimraf .test",
+		"reset": "npm cache clean --force && npm run clean && npx rimraf callback-once.js",
+		"bundle": "mkdir .build && npx rollup callback-once.module.js --file .build/callback-once.bundle.js --format umd --name 'callbackOnce' --compact",
+		"compress": "npx terser .build/callback-once.bundle.js --compress --keep-classnames --keep-fnames --output callback-once.js",
+		"build": "npm run bundle && npm run compress",
+		"test": "node callback-once.test.js",
+		"stage": "npm run reset && npm install && npm run build && npm install && npm test && npm run clean",
 		"prepublishOnly": "npm run stage"
 	},
 	"repository": {
