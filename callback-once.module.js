@@ -132,7 +132,7 @@ const callbackOnce = (
 											"#invalid-callback-parameter;",
 
 											"invalid callback parameter;",
-											"callback called;"
+											"callback called;",
 
 											"@callback:",
 											`${ callback };`
