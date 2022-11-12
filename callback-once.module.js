@@ -242,11 +242,11 @@ const callbackOnce = (
 
 			Object.defineProperty(
 				(
-					onceCallback
+					callback
 				),
 
 				(
-					"target"
+					"targetCallback"
 				),
 
 				(
