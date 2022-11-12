@@ -294,6 +294,21 @@ const callbackOnce = (
 	}
 );
 
+const configureCallbackOnce = (
+	function configureCallbackOnce( option ){
+		return	(
+					callbackOnce.bind( option )
+				);
+	}
+);
+(
+		callbackOnce
+		.configure
+	=	(
+			configureCallbackOnce
+		)
+);
+
 (
 		module
 		.exports
