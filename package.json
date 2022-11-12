@@ -11,7 +11,7 @@
 		"compress": "npx terser .build/callback-once.bundle.js --compress --keep-classnames --keep-fnames --output callback-once.js",
 		"build": "npm run bundle && npm run compress",
 		"test": "node callback-once.test.js",
-		"stage": "npm run reset && npm install && npm run build && npm install && npm test && npm run clean",
+		"stage": "npm run reset && npm install && npm run build && npm test && npm run clean",
 		"prepublishOnly": "npm run stage"
 	},
 	"repository": {
